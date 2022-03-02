@@ -1,0 +1,32 @@
+# DesktopPet
+《刀刀的猫猫》
+作者：狗头人 www.wolfchen.top
+qq群：980897840
+
+修改宠物：
+
+可直接进入对应文件夹修改图片；如需增减图片，需要修改文件夹中petconfig.ini文件（双击用文本文档打开即可），配置文件内有注释，对着修改每个状态对应的文件名即可。
+
+
+添加宠物：
+
+需要在config.ini文件中（右键》编辑，用文本文档打开即可），添加一个宠物的id，并前往data文件夹中添加一个和id对应的文件夹，并添加参数文件（从其他宠物的文件夹复制一个petconfig.ini过来）和图片。
+
+
+本项目由想养猫又养不了的大菜刀独家逼迫狗头人完成
+
+早期参考了以下两个项目的框架
+
+https://github.com/Laylar-sleep/DesktopPet
+
+https://github.com/SpeedPromise/DesktopPet
+
+特别感谢
+
+xixi提供了切换宠物的代码思路
+
+Maggie的鼓励
+
+以及大菜刀的逼迫！
+
+还有各位小伙伴的支持！
