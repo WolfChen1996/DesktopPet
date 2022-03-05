@@ -11,7 +11,7 @@ import random
 import sys
 import os
 import configparser
-
+from setting import Ui_MainWindow
 
 #初始化配置，并定义全局变量
 fp_dir=os.getcwd()
@@ -70,6 +70,7 @@ imgpath='main.png'
 class App(QWidget):
     def __init__(self, parent=None, **kwargs):
         super(App, self).__init__(parent)
+        
         # initialize
         #self.setWindowFlags(Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint|Qt.SubWindow)
         self.setWindowFlags(Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint)
@@ -375,8 +376,9 @@ class App(QWidget):
 
         menu.addSeparator()
         
-        menu.addAction(QAction(QIcon('./data/icon/increase.png'), '放大', self, triggered=self.increase))
-        menu.addAction(QAction(QIcon('./data/icon/decrease.png'), '缩小', self, triggered=self.decrease))
+        #menu.addAction(QAction(QIcon('./data/icon/increase.png'), '放大', self, triggered=self.increase))
+        #menu.addAction(QAction(QIcon('./data/icon/decrease.png'), '缩小', self, triggered=self.decrease))
+        menu.addAction(QAction(QIcon('./data/icon/settings.png'), '设置', self, triggered=self.setting))
         menu.addAction(QAction(QIcon('./data/icon/restore.png'), '重启', self, triggered=self.restart_program))
         menu.addAction(QAction(QIcon('./data/icon/close.png'), '退出', self, triggered=self.quit))
         
@@ -387,6 +389,10 @@ class App(QWidget):
         def _(_):
             self.pick(id)
         return _
+        
+    def setting(self):
+        print("Setting")
+        setting.show()
         
     def drop(self):
         #掉落
@@ -519,7 +525,23 @@ class App(QWidget):
         self.close()
         sys.exit()
     
+class setting(QMainWindow, Ui_MainWindow):
+    def __init__(self, parent=None):
+        super(setting, self).__init__(parent)
+        
+        self.setWindowFlags(Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint)
+        self.setAutoFillBackground(False)
+        self.setAttribute(Qt.WA_TranslucentBackground, True)
+        #self.setAttribute(Qt.WA_TransparentForMouseEvents, True)
+        self.repaint()
+        
+        self.setupUi(self)
+    
+    
+    
+    
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     pet = App()
+    setting = setting()
     sys.exit(app.exec_())
