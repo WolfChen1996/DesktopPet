@@ -2,10 +2,12 @@
 刀刀的猫猫
 Made by Wolf
 http://www.wolfchen.top
+https://github.com/WolfChen1996/DesktopPet
 '''
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
+
 from PIL import Image
 import random
 import sys
@@ -15,15 +17,19 @@ from setting import Ui_MainWindow
 
 #初始化配置，并定义全局变量
 fp_dir=os.getcwd()
-print(fp_dir+'/config.ini')
+#print(fp_dir+'/config.ini')
 config = configparser.ConfigParser()
-config.read(fp_dir+'/config.ini', encoding="utf-8-sig")
-petids=config.get("config", "petids").split(',')
+configpath=fp_dir+'/config.ini'
+config.read(configpath, encoding="utf-8-sig")
+petidraw=config.get("config", "petids")
+petids=petidraw.split(',')
 petid=config.get("config", "petid")
+traypath=config.get("config", "traypath")
 
-print(fp_dir+"/"+petid+"/petconfig.ini")
+#print(fp_dir+"/"+petid+"/petconfig.ini")
 petconfig = configparser.ConfigParser()
-petconfig.read(fp_dir+"/data/"+petid+"/petconfig.ini", encoding="utf-8-sig")
+petconfigpath=fp_dir+"/data/"+petid+"/petconfig.ini"
+petconfig.read(petconfigpath, encoding="utf-8-sig")
 petname=petconfig.get("config", "petname")
 petscale=petconfig.getfloat("config", "petscale")
 bottomfix=petconfig.getfloat("config", "bottomfix")
@@ -36,12 +42,20 @@ dragingfixx=petconfig.getfloat("config", "dragingfixx")
 dragingfixy=petconfig.getfloat("config", "dragingfixy")
 fixdragspeedx=petconfig.getfloat("config", "dragspeedx")
 fixdragspeedy=petconfig.getfloat("config", "dragspeedy")
-petactions=petconfig.get("config", "petaction").split(',')
-petactionnum=petconfig.get("config", "petactionnum").split(',')
-petactionrate=petconfig.get("config", "petactionrate").split(',')
-standaction=petconfig.get("config", "standaction").split(',')
-standactionnum=petconfig.get("config", "standactionnum").split(',')
-standactionrate=petconfig.get("config", "standactionrate").split(',')
+
+petactionsraw=petconfig.get("config", "petaction")
+petactionnumraw=petconfig.get("config", "petactionnum")
+petactionrateraw=petconfig.get("config", "petactionrate")
+standactionraw=petconfig.get("config", "standaction")
+standactionnumraw=petconfig.get("config", "standactionnum")
+standactionrateraw=petconfig.get("config", "standactionrate")
+
+petactions=petactionsraw.split(',')
+petactionnum=petactionnumraw.split(',')
+petactionrate=petactionrateraw.split(',')
+standaction=standactionraw.split(',')
+standactionnum=standactionnumraw.split(',')
+standactionrate=standactionrateraw.split(',')
 
 image_url = './data/'+ petid +'/'
 image = image_url + 'main.png'
@@ -67,6 +81,7 @@ dragspeedx,dragspeedy=0,0
 petleft,pettop=0,0
 gameleft,gamebottom=0,0
 imgpath='main.png'
+
 class App(QWidget):
     def __init__(self, parent=None, **kwargs):
         super(App, self).__init__(parent)
@@ -92,10 +107,10 @@ class App(QWidget):
         gameleft=screenwidth-deskwidth
         gamebottom=deskheight-screenheight
         #self.setGeometry(0, 0, screen.width(), screen.height())
-        print("初始化宠物")
-        print('屏幕尺寸' ,screenwidth , '-' , screenheight)
-        print('桌面尺寸' ,deskwidth, '-' , deskheight)
-        print('宠物尺寸' ,petwidth , '-' , petheight)
+        #print("初始化宠物")
+        #print('屏幕尺寸' ,screenwidth , '-' , screenheight)
+        #print('桌面尺寸' ,deskwidth, '-' , deskheight)
+        #print('宠物尺寸' ,petwidth , '-' , petheight)
         if intotray=="no":
             petleft = deskwidth-petwidth
             pettop = deskheight-petheight+bottomfix
@@ -107,7 +122,7 @@ class App(QWidget):
 
         # initial image
         petimage = image_url + 'start.png'
-        print(petimage)
+        #print(petimage)
         pix = QPixmap(petimage)
         pix = pix.scaled(petwidth, petheight, aspectRatioMode=Qt.KeepAspectRatio)
         self.lb1 = QLabel(self)
@@ -116,7 +131,7 @@ class App(QWidget):
         self.lb1.customContextMenuRequested.connect(self.rightMenu)
 
         # display
-        print("BeginDisplay",pettop)
+        #print("BeginDisplay",pettop)
         self.move(petleft,pettop)
         self.resize(petwidth, petheight)
         self.show()
@@ -128,11 +143,11 @@ class App(QWidget):
     def game(self):
         #循环执行主函数
         global petwidth,playid,playtime,petaction,petaction2,playstand,playnum,petleft,pettop,imgpath
-        #print("loop:"+str(petaction))
-        print("Loop")
+        ##print("loop:"+str(petaction))
+        #print("Loop")
         if drop==1 and onfloor==0:
             if draging==1:
-                print("Draging")
+                #print("Draging")
                 playnum=int(petactionnum[3])
                 if playid<int(petactionnum[3]):
                         imgpath='drag'+str(playid)+'.png'
@@ -142,7 +157,7 @@ class App(QWidget):
                     playid=1
                 
             elif draging==0:
-                #print("Falling")
+                ##print("Falling")
                 playnum=int(petactionnum[4])
                 if playid<int(petactionnum[4]):
                         imgpath='falling'+str(playid)+'.png'
@@ -160,7 +175,7 @@ class App(QWidget):
                 playid=1
                 
             if petaction>=(float(petactionrate[0])+float(petactionrate[1])) and (petleft+petwidth+gameleft+petspeed)<deskwidth:
-                #print("Walking right")
+                ##print("Walking right")
                 playnum=int(petactionnum[2])
                 if playid<int(petactionnum[2]):
                     imgpath='walkright'+str(playid)+'.png'
@@ -181,7 +196,7 @@ class App(QWidget):
                     if playtimemax<=3:
                         playtimemax=3
                 playtime=int(playtime)-1
-                print("Right:"+str(petaction)+"."+str(playid)+"."+str(playtime))
+                #print("Right:"+str(petaction)+"."+str(playid)+"."+str(playtime))
 
             elif petaction<(float(petactionrate[0])+float(petactionrate[1])) and petaction>=float(petactionrate[0]) and (petleft-gameleft)>petspeed:
                 playnum=int(petactionnum[1])
@@ -204,27 +219,27 @@ class App(QWidget):
                     if playtimemax<=1:
                         playtimemax=1
                 playtime=int(playtime)-1
-                print("Left:"+str(petaction)+"."+str(playid)+"."+str(playtime)+"playtimemax:"+str(petspeed))
+                #print("Left:"+str(petaction)+"."+str(playid)+"."+str(playtime)+"playtimemax:"+str(petspeed))
                 
             elif petaction<float(petactionrate[0]):
-                print("站立循环")
+                #print("站立循环")
 
                 if playstand==-1:
                     temp=random.random()
                     temp2=0
-                    print(temp)
+                    #print(temp)
                     for i in range(len(standactionrate)):
                         
                         if float(standactionrate[i])==0:
                             continue
                         temp2=temp2+float(standactionrate[i])
-                        #print("内循环："+str(i)+"累计概率："+str(temp2))
+                        ##print("内循环："+str(i)+"累计概率："+str(temp2))
                         if temp<temp2:
                             petaction2=i
                             playnum=int(standactionnum[i])
                             playstand=1
-                            #print("GET!")
-                            #print(str(i)+":"+str(temp2))
+                            ##print("GET!")
+                            ##print(str(i)+":"+str(temp2))
                             break
                             
                             #playstand=random.randint(0,len(standaction))
@@ -232,7 +247,7 @@ class App(QWidget):
                         playnum=int(standactionnum[0])
                         playstand=1
                 
-                #print("Playstand:"+str(playstand)+"Num:"+standactionnum[petaction2])
+                ##print("Playstand:"+str(playstand)+"Num:"+standactionnum[petaction2])
                 if playstand<int(standactionnum[petaction2]):
                     #imgpath=standaction[i]+str(playid)+'.png'
                     imgpath=standaction[petaction2]+str(playstand)+'.png'
@@ -247,7 +262,7 @@ class App(QWidget):
                     playtimemax=1
                     
                 playtime=int(playtime)-1
-                #print("Stand:"+str(petaction)+".Playid:"+str(playid)+"."+str(petaction2)+".Playstand:"+str(playstand)+".Playtime:"+str(playtime)+"Playnum:"+str(playnum))
+                ##print("Stand:"+str(petaction)+".Playid:"+str(playid)+"."+str(petaction2)+".Playstand:"+str(playstand)+".Playtime:"+str(playtime)+"Playnum:"+str(playnum))
                 
                 
                 
@@ -260,7 +275,7 @@ class App(QWidget):
                 
                 
         petimage = image_url + imgpath
-        print(petimage)
+        #print(petimage)
         pix = QPixmap(petimage)
         pix = pix.scaled(petwidth, petheight, aspectRatioMode=Qt.KeepAspectRatio)
         self.lb1.setPixmap(pix)
@@ -286,7 +301,7 @@ class App(QWidget):
             playid=1
             event.accept()
             self.setCursor(QCursor(Qt.OpenHandCursor))
-            #print("mousePressEvent")
+            ##print("mousePressEvent")
             
         
     def nextimg(self):
@@ -294,7 +309,7 @@ class App(QWidget):
         petimage = image_url + 'stand1.png'
         self.img = QImage()
         self.img.load(petimage)
-        print(petimage)
+        #print(petimage)
         self.image.setPixmap(QPixmap.fromImage(self.img))
         
 
@@ -325,10 +340,10 @@ class App(QWidget):
             mouseposy3=mouseposy2
             mouseposy2=mouseposy1
             mouseposy1=QCursor.pos().y()
-            #print("Moving")
-            print(petleft)
-            print(QCursor.pos().x() , '-' , petwidth/2 , '=' , petleft,'*')
-            print(QCursor.pos().y() , '-' , petheight/2, '=' , pettop)
+            ##print("Moving")
+            #print(petleft)
+            #print(QCursor.pos().x() , '-' , petwidth/2 , '=' , petleft,'*')
+            #print(QCursor.pos().y() , '-' , petheight/2, '=' , pettop)
 
             self.move(petleft, pettop)
             event.accept()
@@ -347,11 +362,11 @@ class App(QWidget):
             dragspeedy=(mouseposy1-mouseposy3)/2*fixdragspeedy
             mouseposx1=mouseposx3=0
             mouseposy1=mouseposy3=0
-            #print("mouseReleaseEvent")
+            ##print("mouseReleaseEvent")
 
     def tray(self):
         tray = QSystemTrayIcon(self)
-        tray.setIcon(QIcon(config.get("config", "traypath")))
+        tray.setIcon(QIcon(traypath))
         menu = QMenu(self)
 
         menu.addAction(QAction(petname, self))
@@ -391,17 +406,17 @@ class App(QWidget):
         return _
         
     def setting(self):
-        print("Setting")
+        #print("Setting")
         setting.show()
         
     def drop(self):
         #掉落
-        print("Dropping")
+        #print("Dropping")
         global petleft,pettop
         global onfloor,dropa,dragspeedy
         if onfloor==0 and draging==0:
-            #print(dragspeedx)
-            #print(dragspeedy)
+            ##print(dragspeedx)
+            ##print(dragspeedy)
             #dropnext=pettop+info.gravity*dropa-info.gravity/2
             dropnext=pettop+dragspeedy
             movenext=petleft+dragspeedx
@@ -449,45 +464,8 @@ class App(QWidget):
     
     def pick(self,newpetid):
         global petid
-        
         petid=newpetid
-        print(petid)
-        
-        global petconfig,petname,petscale,gamespeed,petspeed,gravity,dragingfixx,dragingfixy,fixdragspeedx,fixdragspeedy,petactionnum,petactionrate,standaction,standactionnum,standactionrate,image_url,image,im,petwidth,petheight
-        
-        fp_dir=os.getcwd()
-
-        petconfig = configparser.ConfigParser()
-        petconfig.read(fp_dir+"/data/"+petid+"/petconfig.ini", encoding="utf-8-sig")
-
-        print(fp_dir+"/"+petid+"/petconfig.ini")
-        petconfig = configparser.ConfigParser()
-        petconfig.read(fp_dir+"/data/"+petid+"/petconfig.ini", encoding="utf-8-sig")
-        petname=petconfig.get("config", "petname")
-        petscale=petconfig.getfloat("config", "petscale")
-        bottomfix=petconfig.getfloat("config", "bottomfix")
-        gamespeed=petconfig.getfloat("config", "gamespeed")
-        petspeed=petconfig.getfloat("config", "petspeed")
-        throwout=petconfig.get("config", "throwout")
-        intotray=petconfig.get("config", "intotray")
-        gravity=petconfig.getfloat("config", "gravity")
-        dragingfixx=petconfig.getfloat("config", "dragingfixx")
-        dragingfixy=petconfig.getfloat("config", "dragingfixy")
-        fixdragspeedx=petconfig.getfloat("config", "dragspeedx")
-        fixdragspeedy=petconfig.getfloat("config", "dragspeedy")
-        petactions=petconfig.get("config", "petaction").split(',')
-        petactionnum=petconfig.get("config", "petactionnum").split(',')
-        petactionrate=petconfig.get("config", "petactionrate").split(',')
-        standaction=petconfig.get("config", "standaction").split(',')
-        standactionnum=petconfig.get("config", "standactionnum").split(',')
-        standactionrate=petconfig.get("config", "standactionrate").split(',')
-
-        image_url = './data/'+ petid +'/'
-        image = image_url + 'main.png'
-        im = Image.open(image)
-        petwidth=im.size[0]*petscale
-        petheight=im.size[1]*petscale
-        bottomfix=bottomfix*petscale
+        self.loadpetconfig()
         
     def switchdrop(self):
         global drop
@@ -526,6 +504,9 @@ class App(QWidget):
         sys.exit()
     
 class setting(QMainWindow, Ui_MainWindow):
+    _startPos = None
+    _endPos = None
+    _isTracking = False
     def __init__(self, parent=None):
         super(setting, self).__init__(parent)
         
@@ -533,12 +514,138 @@ class setting(QMainWindow, Ui_MainWindow):
         self.setAutoFillBackground(False)
         self.setAttribute(Qt.WA_TranslucentBackground, True)
         #self.setAttribute(Qt.WA_TransparentForMouseEvents, True)
-        self.repaint()
         
         self.setupUi(self)
+        
+    def mouseMoveEvent(self, e: QMouseEvent):  # 重写移动事件
+        self._endPos = e.pos() - self._startPos
+        self.move(self.pos() + self._endPos)
+
+    def mousePressEvent(self, e: QMouseEvent):
+        if e.button() == Qt.LeftButton:
+            self._isTracking = True
+            self._startPos = QPoint(e.x(), e.y())
+
+    def mouseReleaseEvent(self, e: QMouseEvent):
+        if e.button() == Qt.LeftButton:
+            self._isTracking = False
+            self._startPos = None
+            self._endPos = None
+            
     
+    def readcfg(self, MainWindow):
+        self.settingpetid.setText(petid)
+        self.settingpetlist.setPlainText(petidraw)
+        self.settingtray.setText(traypath)
+
+        self.settingpetname.setText(petname)
+        self.settingscale.setText(str(petscale))
+        self.settingbottomfix.setText(str(bottomfix))
+        self.settingdragingfixx.setText(str(dragingfixx))
+        self.settingdragingfixy.setText(str(dragingfixy))
+        self.settingpetspeed.setText(str(petspeed))
+        self.settinggamespeed.setText(str(gamespeed))
+        self.settingspeedx.setText(str(fixdragspeedx))
+        self.settingspeedy.setText(str(fixdragspeedy))
+        self.settinggravity.setText(str(gravity))
+        self.settingpetaction.setText(petactionsraw)
+        self.settingpetactionnum.setText(petactionnumraw)
+        self.settingpetactionrate.setText(petactionrateraw)
+        self.settingstandaction.setText(standactionraw)
+        self.settingstandactionnum.setText(standactionnumraw)
+        self.settingstandactionrate.setText(standactionrateraw)
+
+        
+    def savecfg1(self):
+        config.set("config", "petid", self.settingpetid.text())  
+        config.set("config", "petids", self.settingpetlist.toPlainText())  
+        config.set("config", "traypath", self.settingtray.text())  
+        config.write(open(configpath, "w"))
+        
+        self.loadconfig()
+        self.readcfg(self)
+        
+    def savecfg2(self):
+        petconfig.set("config", "petname", self.settingpetname.text())  
+        petconfig.set("config", "petscale", self.settingscale.text())  
+        petconfig.set("config", "bottomfix", self.settingbottomfix.text()) 
+        petconfig.set("config", "dragingfixx", self.settingdragingfixx.text()) 
+        petconfig.set("config", "dragingfixy", self.settingdragingfixy.text()) 
+        petconfig.set("config", "petspeed", self.settingpetspeed.text()) 
+        petconfig.set("config", "gamespeed", self.settinggamespeed.text()) 
+        petconfig.set("config", "dragspeedx", self.settingspeedx.text()) 
+        petconfig.set("config", "dragspeedy", self.settingspeedy.text()) 
+        petconfig.set("config", "gravity", self.settinggravity.text()) 
+        
+        petconfig.set("config", "petaction", self.settingpetaction.text()) 
+        petconfig.set("config", "petactionnum", self.settingpetactionnum.text()) 
+        petconfig.set("config", "petactionrate", self.settingpetactionrate.text()) 
+        petconfig.set("config", "standaction", self.settingstandaction.text()) 
+        petconfig.set("config", "standactionnum", self.settingstandactionnum.text()) 
+        petconfig.set("config", "standactionrate", self.settingstandactionrate.text()) 
+        
+        petconfig.write(open(petconfigpath, "w"))
+        
+        self.loadpetconfig()
+        self.readcfg(self)
+    '''
+        self.readcfg(MainWindow)
+        self.save1.clicked.connect(MainWindow.savecfg1)
+        self.save2.clicked.connect(MainWindow.savecfg2)
+    '''
+    def loadconfig(self):
+        global configpath,petidraw,petids,petid,traypath
+        #print(fp_dir+'/config.ini')
+        config = configparser.ConfigParser()
+        configpath=fp_dir+'/config.ini'
+        config.read(configpath, encoding="utf-8-sig")
+        petidraw=config.get("config", "petids")
+        petids=petidraw.split(',')
+        petid=config.get("config", "petid")
+        traypath=config.get("config", "traypath")
     
-    
+    def loadpetconfig(self):
+        global petconfig,petname,petscale,bottomfix,gamespeed,petspeed,gravity,dragingfixx,dragingfixy,fixdragspeedx,fixdragspeedy,petactionnum,petactionrate,standaction,standactionnum,standactionrate,image_url,image,im,petwidth,petheight,petactionsraw,petactionnumraw,petactionrateraw,standactionraw,standactionnumraw,standactionrateraw
+        
+        fp_dir=os.getcwd()
+        petconfig = configparser.ConfigParser()
+        petconfig.read(fp_dir+"/data/"+petid+"/petconfig.ini", encoding="utf-8-sig")
+
+        #print(fp_dir+"/"+petid+"/petconfig.ini")
+        petconfig = configparser.ConfigParser()
+        petconfig.read(fp_dir+"/data/"+petid+"/petconfig.ini", encoding="utf-8-sig")
+        petname=petconfig.get("config", "petname")
+        petscale=petconfig.getfloat("config", "petscale")
+        bottomfix=petconfig.getfloat("config", "bottomfix")
+        gamespeed=petconfig.getfloat("config", "gamespeed")
+        petspeed=petconfig.getfloat("config", "petspeed")
+        throwout=petconfig.get("config", "throwout")
+        intotray=petconfig.get("config", "intotray")
+        gravity=petconfig.getfloat("config", "gravity")
+        dragingfixx=petconfig.getfloat("config", "dragingfixx")
+        dragingfixy=petconfig.getfloat("config", "dragingfixy")
+        fixdragspeedx=petconfig.getfloat("config", "dragspeedx")
+        fixdragspeedy=petconfig.getfloat("config", "dragspeedy")
+        petactionsraw=petconfig.get("config", "petaction")
+        petactionnumraw=petconfig.get("config", "petactionnum")
+        petactionrateraw=petconfig.get("config", "petactionrate")
+        standactionraw=petconfig.get("config", "standaction")
+        standactionnumraw=petconfig.get("config", "standactionnum")
+        standactionrateraw=petconfig.get("config", "standactionrate")
+        
+        petactions=petactionsraw.split(',')
+        petactionnum=petactionnumraw.split(',')
+        petactionrate=petactionrateraw.split(',')
+        standaction=standactionraw.split(',')
+        standactionnum=standactionnumraw.split(',')
+        standactionrate=standactionrateraw.split(',')
+        bottomfix=bottomfix*petscale
+        image_url = './data/'+ petid +'/'
+        image = image_url + 'main.png'
+        im = Image.open(image)
+        petwidth=im.size[0]*petscale
+        petheight=im.size[1]*petscale
+        bottomfix=bottomfix*petscale
     
 if __name__ == '__main__':
     app = QApplication(sys.argv)
