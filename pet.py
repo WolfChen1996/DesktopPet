@@ -301,27 +301,6 @@ class App(QWidget):
             playid=1
             event.accept()
             self.setCursor(QCursor(Qt.OpenHandCursor))
-            ##print("mousePressEvent")
-            
-        
-    def nextimg(self):
-        image_url = './data/'+ petid +'/'
-        petimage = image_url + 'stand1.png'
-        self.img = QImage()
-        self.img.load(petimage)
-        #print(petimage)
-        self.image.setPixmap(QPixmap.fromImage(self.img))
-        
-
-    def mousePressEvent(self, event):
-        if event.button()==Qt.LeftButton:
-            self.is_follow_mouse = True
-            global onfloor,draging,playid
-            onfloor=0
-            draging=1
-            playid=1
-            event.accept()
-            self.setCursor(QCursor(Qt.OpenHandCursor))
 
     def mouseMoveEvent(self, event):
         global mouseposx1,mouseposx2,mouseposx3,mouseposx4,mouseposx5
@@ -399,6 +378,14 @@ class App(QWidget):
         
         tray.setContextMenu(menu)
         tray.show()
+    
+    def nextimg(self):
+        image_url = './data/'+ petid +'/'
+        petimage = image_url + 'stand1.png'
+        self.img = QImage()
+        self.img.load(petimage)
+        #print(petimage)
+        self.image.setPixmap(QPixmap.fromImage(self.img))
         
     def wrapped_pick(self, id):
         def _(_):
@@ -458,7 +445,7 @@ class App(QWidget):
         petheight=im.size[1]*petscale
         bottomfix=bottomfix*petscale
         self.resize(petwidth, petheight)
-        lb1.setGeometry(0,0,petwidth, petheight)
+        self.lb1.setGeometry(0,0,petwidth, petheight)
         #restart_program(self)
 
     
