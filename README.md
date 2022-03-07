@@ -149,5 +149,6 @@ https://github.com/SpeedPromise/DesktopPet
 特别感谢  
 xixi提供了切换宠物的代码思路  
 Maggie的鼓励  
+帮忙找bug的ZZP-DMU  
 以及大菜刀的逼迫！  
 还有各位小伙伴的支持！  
