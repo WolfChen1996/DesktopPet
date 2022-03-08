@@ -52,6 +52,9 @@ pyqt5在mac中的使用
 <tr><td>	2022.03.04					</td></tr>
 <tr><td>	2022.03.05					</td></tr>
 <tr><td>	2022.03.06					</td></tr>
+<tr><td>	2022.03.07	</td><td>	修复bug	</td><td>	不要忘记初始化self.is_follow_mouse	</td></tr>
+<tr><td>	2022.03.08	</td><td  rowspan="2">	用翻转左走图片，做了临时的右走动画	</td><td  rowspan="2">	学会了如何翻转图片	</td></tr>
+<tr><td>	2022.03.09					</td></tr>
 </table>  
 
   
