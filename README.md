@@ -52,12 +52,15 @@ pyqt5在mac中的使用
 <tr><td>	2022.03.04					</td></tr>
 <tr><td>	2022.03.05					</td></tr>
 <tr><td>	2022.03.06					</td></tr>
+<tr><td>	2022.03.07	</td><td>	修复bug	</td><td>	不要忘记初始化self.is_follow_mouse	</td></tr>
+<tr><td>	2022.03.08	</td><td  rowspan="2">	用翻转左走图片，做了临时的右走动画	</td><td  rowspan="2">	学会了如何翻转图片	</td></tr>
+<tr><td>	2022.03.09					</td></tr>
 </table>  
 
   
 ## 使用说明
 ### 运行：  
-windows用户直接双击【windows点我运行.exe】就可以运行啦，如果需要多只，多点几次即可。  
+windows用户直接双击【pet.exe】就可以运行啦，如果需要多只，多点几次即可。  
 辣鸡苹果的用户请查看【mac运行指南.txt】，自己下个python，装几个包，编译运行。后期应该会打包辣鸡mac的app，反正现在是有点bug，还在研究中。
 
 ### 修改宠物：  
@@ -146,9 +149,10 @@ standactionrate=0.9,0.05,0.05
 https://github.com/Laylar-sleep/DesktopPet  
 https://github.com/SpeedPromise/DesktopPet  
 
-特别感谢  
+## 特别感谢  
 xixi提供了切换宠物的代码思路  
 Maggie的鼓励  
 帮忙找bug的ZZP-DMU  
+建议在初始化中添加is_follow_mouse的F  
 以及大菜刀的逼迫！  
 还有各位小伙伴的支持！  
