@@ -1,1 +1,1 @@
-pyinstaller -F -w pet.py
+pyinstaller -F -w pet.py -i favicon.ico
