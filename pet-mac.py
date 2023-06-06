@@ -95,9 +95,9 @@ class App(QWidget):
         #Mac user can move the # from bottom line to the second line and you will see your pet.
         
         #Windows
-        self.setWindowFlags(Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint|Qt.SubWindow)
+        #self.setWindowFlags(Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint|Qt.SubWindow)
         #Mac
-        #self.setWindowFlags(Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint)
+        self.setWindowFlags(Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint)
         
         self.setAutoFillBackground(False)
         self.setAttribute(Qt.WA_TranslucentBackground, True)

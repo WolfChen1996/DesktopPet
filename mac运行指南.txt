@@ -1,8 +1,8 @@
-你好啊，可怜的mac用户
+你好啊，mac用户！
 由于在mac上打包的时候遇到了一些看不明白的问题
 暂时没有mac的安装包哦
 所以如果想在mac上玩的话，得下一个python
-不麻烦的，3分钟应该能搞定
+不麻烦的，3分钟左右应该能搞定
 
 一共有2步
 0、下载安装python，下载地址如下挑一个看着顺眼的。群共享这个文件夹里也有。
@@ -14,9 +14,9 @@ https://www.python.org/ftp/python/3.7.6/python-3.7.6-macosx10.6.pkg
 在里面输入
 pip3 install pyqt5
 回车
-pip3 install PIL
+pip3 install pillow
 回车
 
-2、双击pet.py
+2、双击pet-mac.py
 运气好的话，应该就可以啦~
 运气不好的话，你喊我，我来看看咋回事。
