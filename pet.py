@@ -16,8 +16,9 @@ import configparser
 from setting import Ui_MainWindow
 
 #初始化配置，并定义全局变量
-fp_dir=os.getcwd()
-#print(fp_dir+'/config.ini')
+#fp_dir=os.getcwd()
+fp_dir=os.path.dirname(os.path.abspath(__file__))
+print(fp_dir+'/config.ini')
 config = configparser.ConfigParser()
 configpath=fp_dir+'/config.ini'
 config.read(configpath, encoding="utf-8-sig")
@@ -59,7 +60,7 @@ standaction=standactionraw.split(',')
 standactionnum=standactionnumraw.split(',')
 standactionrate=standactionrateraw.split(',')
 
-image_url = './data/'+ petid +'/'
+image_url = fp_dir+'/data/'+ petid +'/'
 image = image_url + 'main.png'
 im = Image.open(image)
 petwidth=int(im.size[0]*petscale)
@@ -90,13 +91,13 @@ class App(QWidget):
         # initialize
         self.is_follow_mouse = False
         
-        ###MAC用户看这里！！！For mac user!!!###
-        #Mac用户可以把下面那行的#挪到windows那行，就可以看到猫了
-        #Mac user can move the # from bottom line to the second line and you will see your pet.
+        ### MAC用户看这里！！！For mac user!!!###
+        # Mac用户可以把下面那行的#挪到windows那行，就可以看到猫了
+        # Mac user can move the # from bottom line to the second line and you will see your pet.
         
-        #Windows
+        # Windows
         self.setWindowFlags(Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint|Qt.SubWindow)
-        #Mac
+        # Mac
         #self.setWindowFlags(Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint)
         
         self.setAutoFillBackground(False)
@@ -145,13 +146,13 @@ class App(QWidget):
         #print("BeginDisplay",pettop)
         petleft = int(petleft)
         pettop = int(pettop)
-        self.move(petleft,pettop)
+        self.move(int(petleft), int(pettop))
         self.resize(petwidth, petheight)
         self.show()
 
         self.timer = QTimer()
         self.timer.timeout.connect(self.game)
-        self.timer.start(gamespeed)
+        self.timer.start(int(gamespeed))
     
     def game(self):
         #循环执行主函数
@@ -205,7 +206,7 @@ class App(QWidget):
                 
                 petleft=petleft+petspeed
                 
-                self.move(petleft,pettop)
+                self.move(int(petleft), int(pettop))
 
                 if playtime==0:
                     playtimemin=3
@@ -226,7 +227,7 @@ class App(QWidget):
                     playid=1
 
                 petleft=petleft-petspeed
-                self.move(petleft,pettop)
+                self.move(int(petleft), int(pettop))
                 
                 if playtime==0:
                     playtimemin=3
@@ -346,7 +347,7 @@ class App(QWidget):
             #print(QCursor.pos().x() , '-' , petwidth/2 , '=' , petleft,'*')
             #print(QCursor.pos().y() , '-' , petheight/2, '=' , pettop)
 
-            self.move(petleft, pettop)
+            self.move(int(petleft), int(pettop))
             event.accept()
 
     def mouseReleaseEvent(self, event):
@@ -441,14 +442,14 @@ class App(QWidget):
             if dropnext>=(deskheight-petheight+gamebottom):
                 pettop=deskheight-petheight+gamebottom
                 petleft=movenext
-                self.move(petleft,pettop)
+                self.move(int(petleft), int(pettop))
                 onfloor=1
                 dropa=0
                
             elif dropnext<(deskheight-petheight+gamebottom):
                 pettop=dropnext
                 petleft=movenext
-                self.move(petleft,pettop)
+                self.move(int(petleft), int(pettop))
                 
 
     def increase(self):
